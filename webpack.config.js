@@ -1,4 +1,6 @@
 const path=require('path');
+const CleanWebpackPlugin=require('clean-webpack-plugin');
+const HtmlWebpackPlugin=require('html-webpack-plugin');
 
 module.exports={
     entry:'./app.js',
@@ -33,5 +35,11 @@ module.exports={
                 ]
             }
         ]
-    }
+    },
+    plugins:[
+        new CleanWebpackPlugin(['dist']),
+        new HtmlWebpackPlugin({
+            template:'index.html'
+        })
+    ]
 };
