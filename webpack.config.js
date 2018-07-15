@@ -1,45 +1,75 @@
-const path=require('path');
-const CleanWebpackPlugin=require('clean-webpack-plugin');
-const HtmlWebpackPlugin=require('html-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports={
-    entry:'./app.js',
-    output:{
-        filename:'main.js',
-        path:path.resolve(__dirname,'dist')
+module.exports = {
+    entry: './app.js',
+    output: {
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist')
     },
-    module:{
-        rules:[
+    devtool: 'inline-source-map',
+    devServer: {
+        contentBase: './dist',
+        hot: true
+    },
+    module: {
+        rules: [
             {
-                test:/\.(scss)$/,
-                use:[
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                use:{
+                    loader:'babel-loader'
+                }
+            },
+            {
+                test: /\.(scss)$/,
+                use: [
                     {
-                        loader:'style-loader',
+                        loader: 'style-loader',
                     },
                     {
-                        loader:'css-loader'
+                        loader: 'css-loader'
                     },
                     {
-                        loader:'postcss-loader',
-                        options:{
-                            plugins:function(){
-                                return[
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: function () {
+                                return [
                                     require('autoprefixer')
                                 ];
                             }
                         }
                     },
                     {
-                        loader:'sass-loader'
+                        loader: 'sass-loader'
+                    }
+                ]
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: [
+                    {
+                        loader:'file-loader',
+                        options:{
+                            name: '/[name].[ext]',
+                        }
                     }
                 ]
             }
         ]
     },
-    plugins:[
+    plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
-            template:'index.html'
+            template: 'index.html'
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+
         })
     ]
 };
