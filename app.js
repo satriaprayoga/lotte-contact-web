@@ -5,10 +5,11 @@ import './img';
 
 (function($){
 
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-        $(this).toggleClass('active');
-    });
+   // $('#sidebarCollapse').on('click', function () {
+    //    $('#sidebar').toggleClass('active');
+     //   $(this).toggleClass('active');
+   // });
+   
     
    
 }(jQuery))
